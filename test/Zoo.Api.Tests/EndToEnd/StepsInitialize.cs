@@ -4,6 +4,8 @@
 
     using Core;
 
+    using Infrastructure.Store;
+
     using Microsoft.Extensions.DependencyInjection;
 
     using TechTalk.SpecFlow;
@@ -33,13 +35,13 @@
         [BeforeScenario]
         public void BeforeScenario()
         {
-            this.scenarioContext.Set<Configure<EndToEndDbContext>>(context => { });
+            this.scenarioContext.Set<Configure<IDbContext>>(context => { });
             this.scenarioContext.Set<Configure<IServiceCollection>>(services => { });
             this.scenarioContext.Set<Assertion>(context => { });
             this.scenarioContext.Set(
                 new WebFactory<Startup, EndToEndDbContext>(
                     this.scenarioContext.Get<Configure<IServiceCollection>>,
-                    this.scenarioContext.Get<Configure<EndToEndDbContext>>));
+                    this.scenarioContext.Get<Configure<IDbContext>>));
         }
     }
 }

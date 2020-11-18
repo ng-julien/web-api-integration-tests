@@ -9,9 +9,9 @@ namespace Zoo.Administration.Tests.AnimalsRegistrationAggregate.Models
 
     using Core.Validator;
 
-    using FluentAssertions;
-
     using Moq;
+
+    using FluentAssertions;
 
     [TestFixture]
     public class BearCreatingShould

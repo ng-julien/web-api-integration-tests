@@ -1,4 +1,4 @@
-﻿﻿namespace Core.Validator
+﻿namespace Core.Validator
 {
     using System;
     using System.Collections.Generic;

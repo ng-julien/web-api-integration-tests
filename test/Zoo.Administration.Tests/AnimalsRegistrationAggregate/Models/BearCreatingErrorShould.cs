@@ -1,12 +1,12 @@
-﻿using NUnit.Framework;
-
-namespace Zoo.Administration.Tests.AnimalsRegistrationAggregate.Models
+﻿namespace Zoo.Administration.Tests.AnimalsRegistrationAggregate.Models
 {
     using System.Collections.Generic;
 
     using Administration.AnimalsRegistrationAggregate.Models;
 
     using FizzWare.NBuilder;
+
+    using NUnit.Framework;
 
     using FluentAssertions;
 

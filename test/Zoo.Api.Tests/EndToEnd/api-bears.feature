@@ -8,7 +8,7 @@
       | 1  | Winnie    | 4    | 3        |
       | 2  | Léo       | 4    | 2        |
       | 3  | Sophie    | 4    | 1        |
-      | 4  | Francklin | 4    | 3        |
+      | 4  | Martin    | 4    | 3        |
     Given the referential have any families
       | Id | Name    | ClassificationId|
       | 2  | Lion    |1                |
@@ -25,7 +25,7 @@
     And the content have restrained bears
       | Id | Name      |
       | 1  | Winnie    |
-      | 4  | Francklin |
+      | 4  | Martin    |
 
 
   @create-animal @ok
@@ -37,10 +37,10 @@
       | Title               | FamilyId | FoodId |
       | Bears can eat honey | 3        | 1      |
     When i would like register bear
-      | Title            | Name   | Legs | Foods |
-      | Winnie eat honey | Winnie | 4    | 1     |
+      | Title             | Name    | Legs | Foods |
+      | Barnabé eat honey | Barnabé | 4    | 1     |
     And i call the http resource 'api/v1/bears' with POST http method    
     Then the http status code of response is 201
     And the content is
-      | Title            | location    | Id | Name   | Legs | Foods |
-      | Winnie eat honey | api/v1/bears/5 | 5  | Winnie | 4    | Honey |
+      | Title             | location       | Id | Name    | Legs | Foods |
+      | Barnabé eat honey | api/v1/bears/5 | 5  | Barnabé | 4    | Honey |

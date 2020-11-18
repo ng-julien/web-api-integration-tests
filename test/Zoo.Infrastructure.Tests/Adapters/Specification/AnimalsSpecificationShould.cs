@@ -26,7 +26,7 @@ namespace Zoo.Infrastructure.Tests.Adapters.Specification
 
             satisfy.Should().BeTrue();
         }
-        
+
         [Test]
         public void ReturnFalseWhenBearAnimalHaveFamilyIdNotEqualTo3()
         {
@@ -39,7 +39,7 @@ namespace Zoo.Infrastructure.Tests.Adapters.Specification
 
             satisfy.Should().BeFalse();
         }
-        
+
         [Test]
         public void HaveAccidentOriginsRelationship()
         {

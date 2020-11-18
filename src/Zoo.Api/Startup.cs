@@ -69,7 +69,7 @@ namespace Zoo.Api
                         builder =>
                             {
                                 builder.UseSqlServer(
-                                    this.Configuration.GetConnectionString("PatternContext"),
+                                    this.Configuration.GetConnectionString("ZooContext"),
                                     options => options.EnableRetryOnFailure());
                             });
         }

@@ -16,13 +16,13 @@
         where TStartup : class
         where TContext : DbContext, IDbContext
     {
-        private readonly Func<Configure<TContext>> getConfigureDbContext;
+        private readonly Func<Configure<IDbContext>> getConfigureDbContext;
 
         private readonly Func<Configure<IServiceCollection>> getConfigureService;
 
         public WebFactory(
             Func<Configure<IServiceCollection>> getConfigureService,
-            Func<Configure<TContext>> getConfigureDbContext)
+            Func<Configure<IDbContext>> getConfigureDbContext)
         {
             this.getConfigureService = getConfigureService;
             this.getConfigureDbContext = getConfigureDbContext;
@@ -42,11 +42,11 @@
                                this.getConfigureService()(services);
                                var serviceProvider = services.AddEntityFrameworkInMemoryDatabase()
                                                              .AddDbContextPool<IDbContext, TContext>(
-                                                                 (_, options) =>
+                                                                 (sp, options) =>
                                                                      {
                                                                          options.UseInMemoryDatabase(
                                                                              "InMemoryDbForTesting");
-                                                                         options.UseInternalServiceProvider(_);
+                                                                         options.UseInternalServiceProvider(sp);
                                                                          options.EnableSensitiveDataLogging();
                                                                      }).BuildServiceProvider();
                                var dbContext = this.ConfigureDbContext(serviceProvider);
@@ -64,12 +64,10 @@
 
         private TContext ConfigureDbContext(IServiceProvider serviceProvider)
         {
-            var dbContext =
-                (TContext)serviceProvider.GetRequiredService<IDbContext>();
+            var dbContext = (TContext)serviceProvider.GetRequiredService<IDbContext>();
             dbContext.Database.EnsureCreated();
             var logging = serviceProvider
-                .GetRequiredService<
-                    ILogger<WebFactory<TStartup, TContext>>>();
+                .GetRequiredService<ILogger<WebFactory<TStartup, TContext>>>();
 
             try
             {
@@ -80,7 +78,7 @@
             catch (Exception ex)
             {
                 logging.LogError(ex, "Configure DbContext error");
-                throw ex;
+                throw;
             }
         }
     }

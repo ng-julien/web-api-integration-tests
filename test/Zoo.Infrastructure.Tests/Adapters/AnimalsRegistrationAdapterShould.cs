@@ -27,8 +27,8 @@ namespace Zoo.Infrastructure.Tests.Adapters
         public async Task ReturnDetailsOfCreatedAnimalsWhenCallRegister()
         {
             var bearCreating = Builder<BearCreating>.CreateNew().Build();
-            var mappedAnimal = Builder<Animal>.CreateNew().Build(); 
-            var bearDetails = Builder<BearDetails>.CreateNew().Build(); 
+            var mappedAnimal = Builder<Animal>.CreateNew().Build();
+            var bearDetails = Builder<BearDetails>.CreateNew().Build();
             var mockedMapper = new Mock<IMapper>();
             mockedMapper.Setup(mapper => mapper.Map<Animal>(bearCreating))
                         .Returns(mappedAnimal);
@@ -39,7 +39,7 @@ namespace Zoo.Infrastructure.Tests.Adapters
             mockedWriter.Setup(writer => writer.SaveAsync(default))
                         .Returns(Task.CompletedTask);
             var adapter = new AnimalsRegistrationAdapter(mockedMapper.Object, mockedWriter.Object);
-            
+
             var actualValue = await adapter.RegisterAsync<BearCreating, BearDetails>(bearCreating);
 
             actualValue.Should().Be(bearDetails);

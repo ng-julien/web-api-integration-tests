@@ -29,7 +29,7 @@
             
             query.Get<BearRestrained>(null, mockedNotFoundCallback.Object);
             
-            mockedNotFoundCallback.Verify(notfound => notfound(), Times.Once);
+            mockedNotFoundCallback.Verify(notFound => notFound(), Times.Once);
         }
         
         [Test]

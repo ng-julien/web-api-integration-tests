@@ -26,7 +26,7 @@
             return services.AddAutoMapper(dbContextConfiguration.Method.DeclaringType.Assembly, typeof(ServiceCollectionExtensions).Assembly)
                            .AddScoped<IReader, Reader>()
                            .AddScoped<IWriter, Writer>()
-                           .AddDbContextPool<IDbContext, PatternContext>(dbContextConfiguration)
+                           .AddDbContextPool<IDbContext, ZooContext>(dbContextConfiguration)
                            .AddScoped<IRestrainedAnimalAdapter, RestrainedAnimalAdapter>()
                            .AddScoped<IAnimalsRegistrationAdapter, AnimalsRegistrationAdapter>();
         }

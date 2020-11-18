@@ -7,13 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Zoo.Infrastructure.Entities
 {
-    public partial class PatternContext : DbContext
+    public partial class ZooContext : DbContext
     {
-        public PatternContext()
-        {
-        }
-
-        public PatternContext(DbContextOptions<PatternContext> options)
+        public ZooContext(DbContextOptions<ZooContext> options)
             : base(options)
         {
         }

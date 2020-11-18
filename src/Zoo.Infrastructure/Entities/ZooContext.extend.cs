@@ -4,9 +4,9 @@
 
     using Store;
 
-    public partial class PatternContext : IDbContext
+    public partial class ZooContext : IDbContext
     {
-        protected PatternContext(DbContextOptions options)
+        protected ZooContext(DbContextOptions options)
             : base(options)
         {
         }

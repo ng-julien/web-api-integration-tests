@@ -4,7 +4,7 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public sealed class EndToEndDbContext : PatternContext
+    public sealed class EndToEndDbContext : ZooContext
     {
         public EndToEndDbContext(DbContextOptions<EndToEndDbContext> options)
             : base(options)

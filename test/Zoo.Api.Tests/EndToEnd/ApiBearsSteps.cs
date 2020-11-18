@@ -11,8 +11,6 @@
 
     using Core;
 
-    using FluentAssertions;
-
     using Infrastructure.Entities;
     using Infrastructure.Store;
 
@@ -25,6 +23,8 @@
     using Park.BearsAggregate.Models;
 
     using ROI.WebApp.Test.EndToEnd;
+
+    using FluentAssertions;
 
     using TechTalk.SpecFlow;
     using TechTalk.SpecFlow.Assist;
@@ -42,22 +42,22 @@
         [Given(@"the referential have any animals")]
         public void GivenTheReferentialHaveAnyAnimals(IEnumerable animals)
         {
-            this.scenarioContext.Configure<EndToEndDbContext>(
-                context => { context.Animals.AddRange(animals.Cast<Animal>()); });
+            this.scenarioContext.Configure<IDbContext>(
+                context => { context.Set<Animal>().AddRange(animals.Cast<Animal>()); });
         }
 
         [Given(@"the referential have any classification")]
         public void GivenTheReferentialHaveAnyClassification(IEnumerable classification)
         {
-            this.scenarioContext.Configure<EndToEndDbContext>(
-                context => { context.Classifications.AddRange(classification.Cast<Classification>()); });
+            this.scenarioContext.Configure<IDbContext>(
+                context => { context.Set<Classification>().AddRange(classification.Cast<Classification>()); });
         }
 
         [Given(@"the referential have any families")]
         public void GivenTheReferentialHaveAnyFamilies(IEnumerable families)
         {
-            this.scenarioContext.Configure<EndToEndDbContext>(
-                context => { context.Families.AddRange(families.Cast<Family>()); });
+            this.scenarioContext.Configure<IDbContext>(
+                context => { context.Set<Family>().AddRange(families.Cast<Family>()); });
         }
 
         [Then(@"the content have restrained bears")]
@@ -73,10 +73,10 @@
         }
 
         [Then(@"the http status code of response is (.*)")]
-        public void ThenTheHttpStatusCodeOfResponseIs(HttpStatusCode httpStatusCode)
+        public void ThenTheHttpStatusCodeOfResponseIs(HttpStatusCode expectedHttpStatusCode)
         {
             var response = this.scenarioContext.Get<HttpResponseMessage>();
-            response.StatusCode.Should().Be(httpStatusCode);
+            response.StatusCode.Should().Be(expectedHttpStatusCode);
         }
 
         [When(@"i call the http resource '(.*)' with (.*) http method")]
@@ -105,15 +105,15 @@
         [Given(@"the referential have any foods")]
         public void GivenTheReferentialHaveAnyFoods(IEnumerable foods)
         {
-            this.scenarioContext.Configure<EndToEndDbContext>(
-                context => { context.Foods.AddRange(foods.Cast<Food>()); });
+            this.scenarioContext.Configure<IDbContext>(
+                context => { context.Set<Food>().AddRange(foods.Cast<Food>()); });
         }
         
         [Given(@"the animal can eats")]
         public void GivenTheAnimalCanEats(IEnumerable animalCanEats)
         {
-            this.scenarioContext.Configure<EndToEndDbContext>(
-                context => { context.AnimalCanEats.AddRange(animalCanEats.Cast<AnimalCanEat>()); });
+            this.scenarioContext.Configure<IDbContext>(
+                context => { context.Set<AnimalCanEat>().AddRange(animalCanEats.Cast<AnimalCanEat>()); });
         }
         
         [When(@"i would like register bear")]
@@ -131,7 +131,7 @@
             var expectedLocation = table.Rows[0].GetString("location");
             var expectedSuccessValue = table.CreateInstance<BearDetails>();
             var successValue = await ReadContent<BearDetails>();
-            var locationValue = response.Headers.Location;
+            var locationValue = response.Headers.Location.ToString();
             successValue.Should().BeEquivalentTo(expectedSuccessValue);
             locationValue.Should().Be(expectedLocation);
             

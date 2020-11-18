@@ -14,8 +14,9 @@
 
     using Infrastructure.Store;
 
+    using Internals;
+
     using Moq;
-    using Moq.EntityFrameworkCore;
 
     using NUnit.Framework;
 
@@ -35,7 +36,7 @@
                          .ReturnsDbSet(entities);
             var mockedSpecification = new Mock<ISpecification<Entity>>();
             mockedSpecification.SetupGet(specification => specification.Relationships)
-                               .Returns(new List<Relationship<Entity>> { relationship }.ToImmutableList);
+                               .Returns(() => new List<Relationship<Entity>> { relationship }.ToImmutableList());
             mockedSpecification.Setup(specification => specification.ToExpression())
                                .Returns(filter);
             using var reader = new Reader(mockedContext.Object);
@@ -87,7 +88,7 @@
                          .ReturnsDbSet(entities);
             var mockedSpecification = new Mock<ISpecification<Entity>>();
             mockedSpecification.Setup(specification => specification.Relationships)
-                               .Returns(Enumerable.Empty<Relationship<Entity>>().ToImmutableList);
+                               .Returns(() => Enumerable.Empty<Relationship<Entity>>().ToImmutableList());
             mockedSpecification.Setup(specification => specification.ToExpression())
                                .Returns(filter);
             using var reader = new Reader(mockedContext.Object);
