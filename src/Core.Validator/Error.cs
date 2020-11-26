@@ -1,4 +1,4 @@
-﻿﻿namespace Core.Validator
+﻿namespace Core.Validator
 {
     public sealed class Error
     {

@@ -1,5 +1,5 @@
 ﻿{
-   "ContextClassName": "PatternContext",
+   "ContextClassName": "ZooContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,

@@ -1,10 +1,8 @@
 ﻿namespace Core.Specification
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
-    [ExcludeFromCodeCoverage]
     internal sealed class ConditionSpecification<TEntity> : Specification<TEntity>
     {
         private readonly Func<Expression, Expression, Expression> conditionalFunc;

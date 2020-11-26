@@ -1,11 +1,9 @@
 ﻿namespace Core.Specification
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
 
-    [ExcludeFromCodeCoverage]
     internal sealed class NotSpecification<TEntity> : Specification<TEntity>
     {
         private readonly ISpecification<TEntity> specification;

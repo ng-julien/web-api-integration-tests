@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
 
-    [ExcludeFromCodeCoverage]
     public sealed class Relationship<TEntity>
     {
         private readonly List<Expression<Func<object, object>>> children = new List<Expression<Func<object, object>>>();
