@@ -14,6 +14,9 @@
       | 2  | Lion    |1                |
       | 3  | Bear    |1                |
       | 1  | Giraffe |1                |
+    Given the referential have any foods
+      | Id | Name     |
+      | 1  | Honey    |
     Given the referential have any classification
       | Id | Name     |
       | 1  | Mammifère|
@@ -30,9 +33,7 @@
 
   @create-animal @ok
   Scenario: return created value when call api/bears with valid creating bear
-    Given the referential have any foods
-      | Id | Name  |
-      | 1  | Honey |
+    Given I'm zoo-director
     And the animal can eats
       | Title               | FamilyId | FoodId |
       | Bears can eat honey | 3        | 1      |

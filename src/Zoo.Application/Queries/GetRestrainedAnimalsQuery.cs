@@ -1,6 +1,6 @@
 ﻿namespace Zoo.Application.Queries
 {
-    using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Linq;
 
     using Park.Common.Adapters;
@@ -8,7 +8,7 @@
 
     public interface IGetRestrainedAnimalsQuery
     {
-        void Get<TRestrainedAnimal>(FoundCallback<IReadOnlyList<TRestrainedAnimal>> found, NotFoundCallback notFound) where TRestrainedAnimal : AnimalRestrained, new();
+        void Get<TRestrainedAnimal>(FoundCallback<IImmutableList<TRestrainedAnimal>> found, NotFoundCallback notFound) where TRestrainedAnimal : AnimalRestrained, new();
     }
     
     internal sealed class GetRestrainedAnimalsQuery : IGetRestrainedAnimalsQuery
@@ -20,7 +20,7 @@
             this.restrainedAnimalAdapter = restrainedAnimalAdapter;
         }
 
-        public void Get<TRestrainedAnimal>(FoundCallback<IReadOnlyList<TRestrainedAnimal>> found, NotFoundCallback notFound) where TRestrainedAnimal : AnimalRestrained, new()
+        public void Get<TRestrainedAnimal>(FoundCallback<IImmutableList<TRestrainedAnimal>> found, NotFoundCallback notFound) where TRestrainedAnimal : AnimalRestrained, new()
         {
             var animals = this.restrainedAnimalAdapter.Get<TRestrainedAnimal>();
             if (!animals.Any())

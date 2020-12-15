@@ -1,8 +1,8 @@
-﻿namespace ROI.WebApp.Test.EndToEnd
+﻿namespace Zoo.Api.Tests.EndToEnd.Core
 {
-    using TechTalk.SpecFlow;
+    using EndToEnd;
 
-    using Zoo.Api.Tests.EndToEnd;
+    using TechTalk.SpecFlow;
 
     internal static class ScenarioContextExtensions
     {

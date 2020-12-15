@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
 
+    using Infrastructure.Contracts.Veterinary.Models;
     using Infrastructure.Entities;
 
     using Park.BearsAggregate.Models;
@@ -29,6 +30,7 @@
             return (HttpStatusCode)status;
         }
 
+        [StepArgumentTransformation(@"the referential have any veterinaries")]
         [StepArgumentTransformation(@"the referential have any animals")]
         [StepArgumentTransformation(@"the referential have any families")]
         [StepArgumentTransformation(@"the referential have any classification")]
@@ -68,10 +70,14 @@
                 return table.CreateSet<Food>().ToImmutableArray();
             }
 
-
             if (stepTitle.Contains("animal can eat"))
             {
                 return table.CreateSet<AnimalCanEat>().ToImmutableArray();
+            }
+            
+            if (stepTitle.Contains("veterinaries"))
+            {
+                return table.CreateSet<Veterinary>().ToImmutableArray();
             }
 
             throw new ArgumentOutOfRangeException(stepTitle);

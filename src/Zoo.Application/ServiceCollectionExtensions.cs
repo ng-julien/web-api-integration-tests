@@ -19,6 +19,7 @@
         {
             return services.AddScoped<IGetRestrainedAnimalsQuery, GetRestrainedAnimalsQuery>()
                            .AddScoped<IAnimalRegistrationCommand, AnimalRegistrationCommand>()
+                           .AddScoped<IGetVeterinariesQuery, GetVeterinariesQuery>()
                 .AddInfrastructure(dbContextConfiguration);
         }
     }

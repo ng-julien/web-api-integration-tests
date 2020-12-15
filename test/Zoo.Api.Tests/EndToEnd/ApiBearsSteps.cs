@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Administration.AnimalsRegistrationAggregate.Models;
@@ -18,13 +17,11 @@
     using Microsoft.Extensions.DependencyInjection;
 
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     using Park.BearsAggregate.Models;
 
-    using ROI.WebApp.Test.EndToEnd;
-
     using FluentAssertions;
+
 
     using TechTalk.SpecFlow;
     using TechTalk.SpecFlow.Assist;
@@ -59,7 +56,7 @@
             this.scenarioContext.Configure<IDbContext>(
                 context => { context.Set<Family>().AddRange(families.Cast<Family>()); });
         }
-
+        
         [Then(@"the content have restrained bears")]
         public async Task ThenTheContentHaveRestrainedAnimals(IEnumerable expectedRetrainedAnimals)
         {
@@ -77,29 +74,6 @@
         {
             var response = this.scenarioContext.Get<HttpResponseMessage>();
             response.StatusCode.Should().Be(expectedHttpStatusCode);
-        }
-
-        [When(@"i call the http resource '(.*)' with (.*) http method")]
-        public async Task WhenICallTheHttpResourceWithHttpMethod(string resource, HttpMethod httpMethod)
-        {
-            this.scenarioContext.TryGetValue("Post", out var postingValue);
-            HttpContent httpContent = null;
-            if (postingValue != null)
-            {
-                httpContent = new StringContent(
-                    JObject.FromObject(postingValue).ToString(),
-                    Encoding.UTF8,
-                    "application/json");
-            }
-
-            var webFactory = this.scenarioContext.Get<WebFactory<Startup, EndToEndDbContext>>();
-            using var client = webFactory.CreateClient();
-            var response = await client.SendAsync(
-                               new HttpRequestMessage(httpMethod, $"{resource}")
-                                   {
-                                       Content = httpContent
-                                   });
-            this.scenarioContext.Set(response);
         }
 
         [Given(@"the referential have any foods")]

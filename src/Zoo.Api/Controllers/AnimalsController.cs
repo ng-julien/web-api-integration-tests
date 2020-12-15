@@ -1,6 +1,6 @@
 ﻿namespace Zoo.Api.Controllers
 {
-    using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -9,6 +9,7 @@
     using Application.Commands;
     using Application.Queries;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using Park.Common.Models;
@@ -21,7 +22,7 @@
     {
         [HttpGet]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(IReadOnlyList<>), 200)]
+        [ProducesResponseType(typeof(IImmutableList<>), 200)]
         [ProducesResponseType(500)]
         public ActionResult Get([FromServices] IGetRestrainedAnimalsQuery getRestrainedAnimalsQuery)
         {
@@ -33,6 +34,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "zoo-director")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(AnimalDetails), 201)]
         [ProducesResponseType(500)]

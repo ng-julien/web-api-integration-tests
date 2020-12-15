@@ -8,9 +8,15 @@
 
     using AutoMapper;
 
+    using Contracts;
+    using Contracts.Veterinary;
+
     using Entities;
 
+    using Infirmary.VeterinaryAggregate;
+
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     using Park.Common.Adapters;
@@ -28,7 +34,16 @@
                            .AddScoped<IWriter, Writer>()
                            .AddDbContextPool<IDbContext, ZooContext>(dbContextConfiguration)
                            .AddScoped<IRestrainedAnimalAdapter, RestrainedAnimalAdapter>()
-                           .AddScoped<IAnimalsRegistrationAdapter, AnimalsRegistrationAdapter>();
+                           .AddScoped<IAnimalsRegistrationAdapter, AnimalsRegistrationAdapter>()
+                           .AddScoped<IVeterinaryAdapter, VeterinaryAdapter>()
+                           .AddHttpClient("veterinary-list",
+                               (provider, options) =>
+                                   {
+                                       var configuration = provider.GetRequiredService<IConfiguration>();
+                                       configuration.Bind("veterinary-list", options);
+                                   })
+                           .AddTypedClient(Refit.RestService.For<IVeterinaryClient>)
+                           .Services;
         }
     }
 }

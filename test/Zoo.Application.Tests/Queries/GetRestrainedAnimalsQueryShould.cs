@@ -19,7 +19,7 @@
     public class GetRestrainedAnimalsQueryShould
     {
         [Test]
-        public void CallNotFoundWhenCallGetAndNotHzveAnyAnimals()
+        public void CallNotFoundWhenCallGetAndNotHaveAnyAnimals()
         {
             var mockedNotFoundCallback = new Mock<NotFoundCallback>();
             var mockedAdapter = new Mock<IRestrainedAnimalAdapter>();
@@ -36,13 +36,13 @@
         public void CallFoundWhenCallGetAndHaveAnyAnimals()
         {
             var bears = Builder<BearRestrained>.CreateListOfSize(10).Build().ToImmutableList();
-            var mockedFoundCallback = new Mock<FoundCallback<IReadOnlyList<BearRestrained>>>();
+            var mockedFoundCallback = new Mock<FoundCallback<IImmutableList<BearRestrained>>>();
             var mockedAdapter = new Mock<IRestrainedAnimalAdapter>();
             mockedAdapter.Setup(adapter => adapter.Get<BearRestrained>())
                          .Returns(bears);
             var query = new GetRestrainedAnimalsQuery(mockedAdapter.Object);
             
-            query.Get<BearRestrained>(mockedFoundCallback.Object, null);
+            query.Get(mockedFoundCallback.Object, null);
             
             mockedFoundCallback.Verify(found => found(bears), Times.Once);
         }

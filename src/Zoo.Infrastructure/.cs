@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Zoo.Infrastructure.Tests"), InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: InternalsVisibleTo("Zoo.Infrastructure.Tests"), InternalsVisibleTo("Zoo.Api.Tests"), InternalsVisibleTo("DynamicProxyGenAssembly2")]
