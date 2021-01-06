@@ -8,6 +8,11 @@
 
     using AutoMapper;
 
+    using AxaFrance.Extensions.ServiceModel;
+    using AxaFrance.Extensions.ServiceModel.Settings;
+
+    using BookService;
+
     using Contracts;
     using Contracts.Veterinary;
 
@@ -19,6 +24,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
+    using Park.BooksAggregate;
     using Park.Common.Adapters;
 
     using Store;
@@ -27,8 +33,11 @@
     {
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
-            Action<DbContextOptionsBuilder> dbContextConfiguration)
+            Action<DbContextOptionsBuilder> dbContextConfiguration,
+            Action<ServiceConfiguration<BasicAuth>> bookServiceBuilder)
         {
+            var bookServiceConfiguration = new ServiceConfiguration<BasicAuth>();
+            bookServiceBuilder(bookServiceConfiguration);
             return services.AddAutoMapper(dbContextConfiguration.Method.DeclaringType.Assembly, typeof(ServiceCollectionExtensions).Assembly)
                            .AddScoped<IReader, Reader>()
                            .AddScoped<IWriter, Writer>()
@@ -36,6 +45,7 @@
                            .AddScoped<IRestrainedAnimalAdapter, RestrainedAnimalAdapter>()
                            .AddScoped<IAnimalsRegistrationAdapter, AnimalsRegistrationAdapter>()
                            .AddScoped<IVeterinaryAdapter, VeterinaryAdapter>()
+                           .AddScoped<IBookAdapter, BookAdapter>()
                            .AddHttpClient("veterinary-list",
                                (provider, options) =>
                                    {
@@ -43,7 +53,8 @@
                                        configuration.Bind("veterinary-list", options);
                                    })
                            .AddTypedClient(Refit.RestService.For<IVeterinaryClient>)
-                           .Services;
+                           .Services
+                           .AddWcfClient<BookServiceChannel>(bookServiceConfiguration);
         }
     }
 }

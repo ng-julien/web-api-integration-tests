@@ -20,22 +20,22 @@ namespace Zoo.Api.Tests.EndToEnd
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.5.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("api-infirmary")]
-    public partial class Api_InfirmaryFeature
+    [NUnit.Framework.DescriptionAttribute("api-books")]
+    public partial class Api_BooksFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "api-infirmary.feature"
+#line 1 "api-books.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EndToEnd", "api-infirmary", "  Allows you to perform medical procedures, list veterinarians etc.", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "EndToEnd", "api-books", "  allows you to collect books by type of animal", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -73,19 +73,50 @@ namespace Zoo.Api.Tests.EndToEnd
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 4
+  #line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "ID",
+                        "Title",
+                        "Author"});
+            table9.AddRow(new string[] {
+                        "X345D",
+                        "Little Brown Bear loves his daddy",
+                        "Marie Aubinais"});
+            table9.AddRow(new string[] {
+                        "G465H",
+                        "The Giraffe",
+                        "Marie Nimier"});
+            table9.AddRow(new string[] {
+                        "D827G",
+                        "Nanuk: The Polar Bear Ledger",
+                        "Michel Rawicki"});
+            table9.AddRow(new string[] {
+                        "P0243",
+                        "The Giraffe Stroke: Scientists in the Savannah",
+                        "Léo Grasset"});
+#line 5
+    testRunner.Given("the referential have any books", ((string)(null)), table9, "Given ");
+#line hidden
+        }
+        
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Return all veterinary, contact information")]
-        [NUnit.Framework.CategoryAttribute("get-veterinaries")]
+        [NUnit.Framework.DescriptionAttribute("return all books of bear when call api/bears/books and referential have any bears" +
+            "")]
+        [NUnit.Framework.CategoryAttribute("books")]
         [NUnit.Framework.CategoryAttribute("ok")]
-        public virtual void ReturnAllVeterinaryContactInformation()
+        public virtual void ReturnAllBooksOfBearWhenCallApiBearsBooksAndReferentialHaveAnyBears()
         {
             string[] tagsOfScenario = new string[] {
-                    "get-veterinaries",
+                    "books",
                     "ok"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Return all veterinary, contact information", null, tagsOfScenario, argumentsOfScenario);
-#line 5
-    this.ScenarioInitialize(scenarioInfo);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("return all books of bear when call api/bears/books and referential have any bears" +
+                    "", null, tagsOfScenario, argumentsOfScenario);
+#line 13
+  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
             bool isFeatureIgnored = default(bool);
@@ -104,62 +135,29 @@ namespace Zoo.Api.Tests.EndToEnd
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Name",
-                            "Address",
-                            "Postal Code",
-                            "City",
-                            "Country",
-                            "Phone",
-                            "Website",
-                            "EMail"});
-                table11.AddRow(new string[] {
-                            "Michel Klein",
-                            "39 rue de chambor",
-                            "75015",
-                            "Paris",
-                            "France",
-                            "0908070605",
-                            "michelklein.veterinaire.fr",
-                            "michelklein@veterinaire.fr"});
-                table11.AddRow(new string[] {
-                            "John Dolittle",
-                            "57 chemin de la grotte",
-                            "39400",
-                            "Morez",
-                            "France",
-                            "0102030405",
-                            "dolittle.veterinaire.fr",
-                            "johndolittle@veterinaire.fr"});
-#line 6
-    testRunner.Given("the referential have any veterinaries", ((string)(null)), table11, "Given ");
+#line 4
+  this.FeatureBackground();
 #line hidden
-#line 10
-    testRunner.When("i call the http resource \'api/v1/infirmary/veterinaries\' with GET http method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+    testRunner.When("i call the http resource \'api/v1/bears/books\' with GET http method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 11
+#line 15
     testRunner.Then("the http status code of response is 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Name",
-                            "Address",
-                            "Phone",
-                            "Website",
-                            "EMail"});
-                table12.AddRow(new string[] {
-                            "Michel Klein",
-                            "39 rue de chambor\\r\n75015 Paris\\r\nFrance",
-                            "0908070605",
-                            "michelklein.veterinaire.fr",
-                            "michelklein@veterinaire.fr"});
-                table12.AddRow(new string[] {
-                            "John Dolittle",
-                            "57 chemin de la grotte\\r\n39400 Morez\\r\nFrance",
-                            "0102030405",
-                            "dolittle.veterinaire.fr",
-                            "johndolittle@veterinaire.fr"});
-#line 12
-    testRunner.And("the content have veterinary informations", ((string)(null)), table12, "And ");
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Id",
+                            "Title",
+                            "Author"});
+                table10.AddRow(new string[] {
+                            "X345D",
+                            "Little Brown Bear loves his daddy",
+                            "Marie Aubinais"});
+                table10.AddRow(new string[] {
+                            "D827G",
+                            "Nanuk: The Polar Bear Ledger",
+                            "Michel Rawicki"});
+#line 16
+    testRunner.And("the content have books of bear", ((string)(null)), table10, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

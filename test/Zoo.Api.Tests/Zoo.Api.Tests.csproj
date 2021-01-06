@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <IsPackable>false</IsPackable>
-        <GenerateSpecFlowAssemblyHooksFile>true</GenerateSpecFlowAssemblyHooksFile>
+<!--        <GenerateSpecFlowAssemblyHooksFile>true</GenerateSpecFlowAssemblyHooksFile>-->
     </PropertyGroup>
 
     <ItemGroup>

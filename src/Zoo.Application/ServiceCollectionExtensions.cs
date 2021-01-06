@@ -2,6 +2,8 @@
 {
     using System;
 
+    using AxaFrance.Extensions.ServiceModel.Settings;
+
     using Commands;
 
     using Infrastructure;
@@ -15,12 +17,14 @@
     {
         public static IServiceCollection AddApplication(
             this IServiceCollection services,
-            Action<DbContextOptionsBuilder> dbContextConfiguration)
+            Action<DbContextOptionsBuilder> dbContextConfiguration,
+            Action<ServiceConfiguration<BasicAuth>> bookServiceBuilder)
         {
             return services.AddScoped<IGetRestrainedAnimalsQuery, GetRestrainedAnimalsQuery>()
                            .AddScoped<IAnimalRegistrationCommand, AnimalRegistrationCommand>()
                            .AddScoped<IGetVeterinariesQuery, GetVeterinariesQuery>()
-                .AddInfrastructure(dbContextConfiguration);
+                           .AddScoped<IGetBooksAboutQuery, GetBooksAboutQuery>()
+                .AddInfrastructure(dbContextConfiguration, bookServiceBuilder);
         }
     }
 }

@@ -6,6 +6,7 @@
     using System.Net;
     using System.Net.Http;
 
+    using Infrastructure.BookService;
     using Infrastructure.Contracts.Veterinary.Models;
     using Infrastructure.Entities;
 
@@ -34,7 +35,9 @@
         [StepArgumentTransformation(@"the referential have any animals")]
         [StepArgumentTransformation(@"the referential have any families")]
         [StepArgumentTransformation(@"the referential have any classification")]
+        [StepArgumentTransformation(@"the referential have any books")]
         [StepArgumentTransformation(@"restrained bears")]
+        [StepArgumentTransformation(@"the content have books of bear")]
         [StepArgumentTransformation(@"the referential have any foods")]
         [StepArgumentTransformation(@"the animal can eats")]
         public IEnumerable RestrainedAnimalsTransform(Table table)
@@ -78,6 +81,16 @@
             if (stepTitle.Contains("veterinaries"))
             {
                 return table.CreateSet<Veterinary>().ToImmutableArray();
+            }
+            
+            if (stepTitle.Contains("have any books"))
+            {
+                return table.CreateSet<Book>().ToImmutableArray();
+            }
+            
+            if (stepTitle.Contains("books of bear"))
+            {
+                return table.CreateSet<Park.BooksAggregate.Models.Book>().ToImmutableArray();
             }
 
             throw new ArgumentOutOfRangeException(stepTitle);
