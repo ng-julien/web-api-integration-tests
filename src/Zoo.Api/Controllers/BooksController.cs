@@ -6,13 +6,11 @@
     using Application.Queries;
 
     using Microsoft.AspNetCore.Mvc;
-
-    using Park.Common.Models;
-
+    
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/{animal}/[controller]")]
-    public class BooksController<TDetails> : ControllerBase where TDetails : AnimalDetails
+    public class BooksController : ControllerBase
     {
         [HttpGet]
         [Produces("application/json")]

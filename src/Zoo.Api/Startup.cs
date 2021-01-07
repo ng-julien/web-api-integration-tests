@@ -1,12 +1,8 @@
 namespace Zoo.Api
 {
-    using System;
-    using System.Collections.Generic;
     using System.Security.Claims;
 
     using Application;
-
-    using AxaFrance.Extensions.ServiceModel.Settings;
 
     using Controllers;
 
@@ -20,7 +16,6 @@ namespace Zoo.Api
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-    using Microsoft.OpenApi.Models;
 
     using Routing;
 
@@ -105,14 +100,13 @@ namespace Zoo.Api
                         options =>
                             {
                                 options.Conventions.Add(
-                                    new GenericControllerRouteConvention(typeof(AnimalsController<,,>))
-                                );
+                                    new GenericControllerRouteConvention());
                             })
                     .ConfigureApplicationPartManager(
                         m =>
                             {
                                 m.FeatureProviders.Add(
-                                    new GenericControllerFeatureProvider(typeof(AnimalsController<,,>), typeof(BooksController<>))
+                                    new GenericControllerFeatureProvider(typeof(AnimalsController<,,>))
                                 );
                             })
                     .Services
