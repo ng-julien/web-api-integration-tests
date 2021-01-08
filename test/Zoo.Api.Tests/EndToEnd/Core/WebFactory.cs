@@ -17,6 +17,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
 
@@ -47,6 +48,8 @@
                                           "fake-audience");
         }
 
+        public IDbContext DbContext { get; private set; }
+
         public string GetBearerToken(List<Claim> claims)
         {
             if (!claims.Any())
@@ -66,11 +69,8 @@
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            builder.UseEnvironment("Development");
+            builder.UseEnvironment(Environments.Development);
             builder.UseTestServer()
-                   .UseDefaultServiceProvider(
-                       options =>
-                           options.ValidateScopes = false)
                    .ConfigureAppConfiguration(
                        configurationBuilder =>
                            {
@@ -88,17 +88,24 @@
                                        provider.GetService<IAuthorizationService>(),
                                        this.tokenConfiguration));
                                this.getConfigureService()(services);
-                               var serviceProvider = services.AddEntityFrameworkInMemoryDatabase()
-                                                             .AddDbContextPool<IDbContext, TContext>(
-                                                                 (sp, options) =>
-                                                                     {
-                                                                         options.UseInMemoryDatabase(
-                                                                             "InMemoryDbForTesting");
-                                                                         options.UseInternalServiceProvider(sp);
-                                                                         options.EnableSensitiveDataLogging();
-                                                                     }).BuildServiceProvider();
+                               var serviceCollection = new ServiceCollection();
+                               var serviceProvider = serviceCollection.AddEntityFrameworkInMemoryDatabase()
+                                                                      .AddDbContextPool<IDbContext, TContext>(
+                                                                          (sp, options) =>
+                                                                              {
+                                                                                  options.UseInMemoryDatabase(
+                                                                                      "InMemoryDbForTesting");
+                                                                                  options
+                                                                                      .UseInternalServiceProvider(
+                                                                                          sp);
+                                                                                  options
+                                                                                      .EnableSensitiveDataLogging();
+                                                                              })
+                                                                      .AddLogging()
+                                                                      .BuildServiceProvider();
                                var dbContext = this.ConfigureDbContext(serviceProvider);
-                               services.AddSingleton<IDbContext>(_ => dbContext);
+                               services.AddSingleton<IDbContext>(dbContext);
+                               this.DbContext = dbContext;
                            });
         }
 
