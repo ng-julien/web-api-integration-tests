@@ -47,9 +47,7 @@
             this.tokenConfiguration = (signingCredentials, symmetricSecurityKey, Guid.NewGuid().ToString(),
                                           "fake-audience");
         }
-
-        public IDbContext DbContext { get; private set; }
-
+        
         public string GetBearerToken(List<Claim> claims)
         {
             if (!claims.Any())
@@ -69,6 +67,7 @@
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
+            // Definie l'environnement qui sera utilisé lors de l'execution des tests
             builder.UseEnvironment(Environments.Development);
             builder.UseTestServer()
                    .ConfigureAppConfiguration(
@@ -105,7 +104,6 @@
                                                                       .BuildServiceProvider();
                                var dbContext = this.ConfigureDbContext(serviceProvider);
                                services.AddSingleton<IDbContext>(dbContext);
-                               this.DbContext = dbContext;
                            });
         }
 
