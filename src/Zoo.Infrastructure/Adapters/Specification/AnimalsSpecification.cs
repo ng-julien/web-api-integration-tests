@@ -9,7 +9,7 @@
 
     using Core.Specification;
 
-    using Entities;
+    using Entities.Zoo;
 
     using Park.BearsAggregate.Models;
 

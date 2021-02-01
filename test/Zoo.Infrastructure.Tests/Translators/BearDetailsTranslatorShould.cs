@@ -8,7 +8,7 @@
 
     using FluentAssertions;
 
-    using Infrastructure.Entities;
+    using Infrastructure.Entities.Zoo;
     using Infrastructure.Translators;
 
     using NUnit.Framework;

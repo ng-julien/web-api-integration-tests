@@ -119,17 +119,15 @@ namespace Zoo.Api
                                 options.SubstituteApiVersionInUrl = true;
                             })
                     .AddApplication(
-                        builder =>
+                        (builder, connectionString) =>
                             {
                                 builder.UseSqlServer(
-                                    this.Configuration.GetConnectionString("ZooContext"),
+                                    this.Configuration.GetConnectionString(connectionString),
                                     options => options.EnableRetryOnFailure());
                             },
                         this
                             .Configuration
-                            .GetSection(
-                                "ServicesOptions:BookService")
-                            .Bind)
+                            .GetSection)
                     .AddSwaggerGen();
         }
     }

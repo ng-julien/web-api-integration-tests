@@ -78,6 +78,9 @@ namespace Zoo.Api.Tests.EndToEnd
         {
 #line 5
   #line hidden
+#line 6
+    testRunner.Given("The current context is Blue", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Id",
                         "Name",
@@ -103,7 +106,7 @@ namespace Zoo.Api.Tests.EndToEnd
                         "Martin",
                         "4",
                         "3"});
-#line 6
+#line 7
     testRunner.Given("the referential have any animals", ((string)(null)), table1, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -122,7 +125,7 @@ namespace Zoo.Api.Tests.EndToEnd
                         "1",
                         "Giraffe",
                         "1"});
-#line 12
+#line 13
     testRunner.Given("the referential have any families", ((string)(null)), table2, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -131,7 +134,7 @@ namespace Zoo.Api.Tests.EndToEnd
             table3.AddRow(new string[] {
                         "1",
                         "Honey"});
-#line 17
+#line 18
     testRunner.Given("the referential have any foods", ((string)(null)), table3, "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -140,7 +143,7 @@ namespace Zoo.Api.Tests.EndToEnd
             table4.AddRow(new string[] {
                         "1",
                         "Mammifère"});
-#line 20
+#line 21
     testRunner.Given("the referential have any classification", ((string)(null)), table4, "Given ");
 #line hidden
         }
@@ -156,7 +159,7 @@ namespace Zoo.Api.Tests.EndToEnd
                     "ok"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("return all retrained bears when call api/bears and referential have any bears", null, tagsOfScenario, argumentsOfScenario);
-#line 25
+#line 27
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -179,10 +182,10 @@ namespace Zoo.Api.Tests.EndToEnd
 #line 5
   this.FeatureBackground();
 #line hidden
-#line 26
+#line 28
     testRunner.When("i call the http resource \'api/v1/bears\' with GET http method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 27
+#line 29
     testRunner.Then("the http status code of response is 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -194,7 +197,7 @@ namespace Zoo.Api.Tests.EndToEnd
                 table5.AddRow(new string[] {
                             "4",
                             "Martin"});
-#line 28
+#line 30
     testRunner.And("the content have restrained bears", ((string)(null)), table5, "And ");
 #line hidden
             }
@@ -212,7 +215,7 @@ namespace Zoo.Api.Tests.EndToEnd
                     "ok"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("return created value when call api/bears with valid creating bear", null, tagsOfScenario, argumentsOfScenario);
-#line 35
+#line 37
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -235,7 +238,7 @@ namespace Zoo.Api.Tests.EndToEnd
 #line 5
   this.FeatureBackground();
 #line hidden
-#line 36
+#line 38
     testRunner.Given("I\'m zoo-director", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -246,7 +249,7 @@ namespace Zoo.Api.Tests.EndToEnd
                             "Bears can eat honey",
                             "3",
                             "1"});
-#line 37
+#line 39
     testRunner.And("the animal can eats", ((string)(null)), table6, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -259,13 +262,13 @@ namespace Zoo.Api.Tests.EndToEnd
                             "Barnabé",
                             "4",
                             "1"});
-#line 40
+#line 42
     testRunner.When("i would like register bear", ((string)(null)), table7, "When ");
 #line hidden
-#line 43
+#line 45
     testRunner.And("i call the http resource \'api/v1/bears\' with POST http method", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 44
+#line 46
     testRunner.Then("the http status code of response is 201", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
@@ -282,7 +285,7 @@ namespace Zoo.Api.Tests.EndToEnd
                             "Barnabé",
                             "4",
                             "Honey"});
-#line 45
+#line 47
     testRunner.And("the content is", ((string)(null)), table8, "And ");
 #line hidden
             }

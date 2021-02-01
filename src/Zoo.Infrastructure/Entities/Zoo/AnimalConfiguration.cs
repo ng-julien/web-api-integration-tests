@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Zoo.Infrastructure.Entities
+namespace Zoo.Infrastructure.Entities.Zoo
 {
     public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
     {

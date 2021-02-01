@@ -21,12 +21,11 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
 
-    internal class WebFactory<TStartup, TContext>
+    internal class WebFactory<TStartup>
         : WebApplicationFactory<TStartup>
         where TStartup : class
-        where TContext : DbContext, IDbContext
     {
-        private readonly Func<Configure<IDbContext>> getConfigureDbContext;
+        private readonly Func<IServiceCollection, Func<string, Action<IServiceProvider, DbContextOptionsBuilder>>, Dictionary<Type, Configure<IDbContext>>> getConfigureDbContext;
 
         private readonly Func<Configure<IServiceCollection>> getConfigureService;
 
@@ -35,7 +34,7 @@
 
         public WebFactory(
             Func<Configure<IServiceCollection>> getConfigureService,
-            Func<Configure<IDbContext>> getConfigureDbContext)
+            Func<IServiceCollection, Func<string, Action<IServiceProvider, DbContextOptionsBuilder>>, Dictionary<Type, Configure<IDbContext>>> getConfigureDbContext)
         {
             this.getConfigureService = getConfigureService;
             this.getConfigureDbContext = getConfigureDbContext;
@@ -67,7 +66,6 @@
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            // Definie l'environnement qui sera utilisé lors de l'execution des tests
             builder.UseEnvironment(Environments.Development);
             builder.UseTestServer()
                    .ConfigureAppConfiguration(
@@ -83,50 +81,34 @@
                        services =>
                            {
                                services.AddSingleton<IPolicyEvaluator>(
-                                   provider => new FakePolicyEvaluator(
-                                       provider.GetService<IAuthorizationService>(),
-                                       this.tokenConfiguration));
+                                   provider => new FakePolicyEvaluator(provider.GetService<IAuthorizationService>(), this.tokenConfiguration));
                                this.getConfigureService()(services);
-                               var serviceCollection = new ServiceCollection();
-                               var serviceProvider = serviceCollection.AddEntityFrameworkInMemoryDatabase()
-                                                                      .AddDbContextPool<IDbContext, TContext>(
-                                                                          (sp, options) =>
-                                                                              {
-                                                                                  options.UseInMemoryDatabase(
-                                                                                      "InMemoryDbForTesting");
-                                                                                  options
-                                                                                      .UseInternalServiceProvider(
-                                                                                          sp);
-                                                                                  options
-                                                                                      .EnableSensitiveDataLogging();
-                                                                              })
-                                                                      .AddLogging()
-                                                                      .BuildServiceProvider();
-                               var dbContext = this.ConfigureDbContext(serviceProvider);
-                               services.AddSingleton<IDbContext>(dbContext);
+                               this.ConfigureDbContext(services);
                            });
         }
-
-        protected override void Dispose(bool disposing)
+        
+        private void ConfigureDbContext(IServiceCollection rootCollection)
         {
-            base.Dispose(disposing);
-            if (disposing)
-            {
-            }
-        }
-
-        private TContext ConfigureDbContext(IServiceProvider serviceProvider)
-        {
-            var dbContext = (TContext)serviceProvider.GetRequiredService<IDbContext>();
-            dbContext.Database.EnsureCreated();
-            var logging = serviceProvider
-                .GetRequiredService<ILogger<WebFactory<TStartup, TContext>>>();
-
+            var serviceCollection = new ServiceCollection()
+                                    .AddEntityFrameworkInMemoryDatabase()
+                                    .AddLogging();
+            var configurations = this.getConfigureDbContext(serviceCollection, dbName => (serviceProvider, options) =>
+                                                                                   {
+                                                                                       options.UseInMemoryDatabase($"InMemory{dbName}ForTesting");
+                                                                                       options.UseInternalServiceProvider(serviceProvider);
+                                                                                       options.EnableSensitiveDataLogging();
+                                                                                   });
+            var provider = serviceCollection.BuildServiceProvider();
+            var logging = provider.GetService<ILogger<WebFactory<TStartup>>>();
             try
             {
-                this.getConfigureDbContext()(dbContext);
-                dbContext.SaveChanges();
-                return dbContext;
+                foreach (var (type, configure)  in configurations)
+                {
+                    var dbContext = (IDbContext)provider.GetRequiredService(type);
+                    configure(dbContext);
+                    rootCollection.AddScoped(type, _ => dbContext);
+                    dbContext.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {

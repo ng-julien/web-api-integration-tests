@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Zoo.Infrastructure.Entities
+namespace Zoo.Infrastructure.Entities.Zoo
 {
     public class FamilyConfiguration : IEntityTypeConfiguration<Family>
     {
         public void Configure(EntityTypeBuilder<Family> entity)
         {
             entity.ToTable("Family");
-
+            
             entity.Property(e => e.ClassificationId).HasDefaultValueSql("((1))");
 
             entity.Property(e => e.Name)

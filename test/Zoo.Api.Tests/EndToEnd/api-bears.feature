@@ -3,6 +3,7 @@
   the API allows the creation of animals in our referential.
 
   Background:
+    Given The current context is Blue
     Given the referential have any animals
       | Id | Name      | Legs | FamilyId |
       | 1  | Winnie    | 4    | 3        |
@@ -20,6 +21,7 @@
     Given the referential have any classification
       | Id | Name     |
       | 1  | Mammifère|
+    
     
   @retrained-animals @ok
   Scenario: return all retrained bears when call api/bears and referential have any bears    

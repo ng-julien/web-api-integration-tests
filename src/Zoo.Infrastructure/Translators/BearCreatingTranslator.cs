@@ -6,7 +6,7 @@
 
     using AutoMapper;
 
-    using Entities;
+    using Entities.Zoo;
 
     internal class BearCreatingTranslator : Profile
     {

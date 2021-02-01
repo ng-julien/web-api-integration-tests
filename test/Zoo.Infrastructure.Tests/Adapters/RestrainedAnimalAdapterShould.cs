@@ -12,7 +12,7 @@
 
     using Infrastructure.Adapters;
     using Infrastructure.Adapters.Specification;
-    using Infrastructure.Entities;
+    using Infrastructure.Entities.Zoo;
     using Infrastructure.Store;
 
     using Moq;

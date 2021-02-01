@@ -4,20 +4,22 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Zoo.Infrastructure.Entities
+namespace Zoo.Infrastructure.Entities.Zoo
 {
-    public partial class Food
+    public partial class Family
     {
-        public Food()
+        public Family()
         {
             AnimalCanEats = new HashSet<AnimalCanEat>();
-            AnimalEats = new HashSet<AnimalEat>();
+            Animals = new HashSet<Animal>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public int ClassificationId { get; set; }
 
+        public virtual Classification Classification { get; set; }
         public virtual ICollection<AnimalCanEat> AnimalCanEats { get; set; }
-        public virtual ICollection<AnimalEat> AnimalEats { get; set; }
+        public virtual ICollection<Animal> Animals { get; set; }
     }
 }

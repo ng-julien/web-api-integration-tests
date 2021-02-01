@@ -10,7 +10,7 @@
 
     using Core;
 
-    using Infrastructure.Entities;
+    using Infrastructure.Entities.Zoo;
     using Infrastructure.Store;
 
     using Microsoft.EntityFrameworkCore;
@@ -39,21 +39,21 @@
         [Given(@"the referential have any animals")]
         public void GivenTheReferentialHaveAnyAnimals(IEnumerable animals)
         {
-            this.scenarioContext.Configure<IDbContext>(
+            this.scenarioContext.ConfigureCurrentDb(
                 context => { context.Set<Animal>().AddRange(animals.Cast<Animal>()); });
         }
 
         [Given(@"the referential have any classification")]
         public void GivenTheReferentialHaveAnyClassification(IEnumerable classification)
         {
-            this.scenarioContext.Configure<IDbContext>(
+            this.scenarioContext.ConfigureCurrentDb(
                 context => { context.Set<Classification>().AddRange(classification.Cast<Classification>()); });
         }
 
         [Given(@"the referential have any families")]
         public void GivenTheReferentialHaveAnyFamilies(IEnumerable families)
         {
-            this.scenarioContext.Configure<IDbContext>(
+            this.scenarioContext.ConfigureCurrentDb(
                 context => { context.Set<Family>().AddRange(families.Cast<Family>()); });
         }
         
@@ -79,14 +79,14 @@
         [Given(@"the referential have any foods")]
         public void GivenTheReferentialHaveAnyFoods(IEnumerable foods)
         {
-            this.scenarioContext.Configure<IDbContext>(
+            this.scenarioContext.ConfigureCurrentDb(
                 context => { context.Set<Food>().AddRange(foods.Cast<Food>()); });
         }
         
         [Given(@"the animal can eats")]
         public void GivenTheAnimalCanEats(IEnumerable animalCanEats)
         {
-            this.scenarioContext.Configure<IDbContext>(
+            this.scenarioContext.ConfigureCurrentDb(
                 context => { context.Set<AnimalCanEat>().AddRange(animalCanEats.Cast<AnimalCanEat>()); });
         }
         

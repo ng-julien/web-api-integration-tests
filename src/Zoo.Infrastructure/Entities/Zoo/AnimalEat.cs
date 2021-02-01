@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Zoo.Infrastructure.Entities
+namespace Zoo.Infrastructure.Entities.Zoo
 {
     public partial class AnimalEat
     {

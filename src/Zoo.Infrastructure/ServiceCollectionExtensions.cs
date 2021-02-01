@@ -1,6 +1,7 @@
 ﻿namespace Zoo.Infrastructure
 {
     using System;
+    using System.Linq;
 
     using Adapters;
 
@@ -13,10 +14,12 @@
 
     using BookService;
 
-    using Contracts;
     using Contracts.Veterinary;
 
-    using Entities;
+    using Entities.Parameters;
+    using Entities.Zoo;
+
+    using Humanizer;
 
     using Infirmary.VeterinaryAggregate;
 
@@ -33,15 +36,19 @@
     {
         public static IServiceCollection AddInfrastructure(
             this IServiceCollection services,
-            Action<DbContextOptionsBuilder> dbContextConfiguration,
-            Action<ServiceConfiguration<BasicAuth>> bookServiceBuilder)
+            Action<DbContextOptionsBuilder, string> dbContextConfiguration,
+            Func<string, IConfigurationSection> getSection)
         {
+            
             var bookServiceConfiguration = new ServiceConfiguration<BasicAuth>();
-            bookServiceBuilder(bookServiceConfiguration);
+            getSection("ServicesOptions:BookService").Bind(bookServiceConfiguration);
             return services.AddAutoMapper(dbContextConfiguration.Method.DeclaringType.Assembly, typeof(ServiceCollectionExtensions).Assembly)
                            .AddScoped<IReader, Reader>()
                            .AddScoped<IWriter, Writer>()
-                           .AddDbContextPool<IDbContext, ZooContext>(dbContextConfiguration)
+                           .AddDbContextPool<ZooContextBlue>(builder => dbContextConfiguration(builder, "ZooContextBlue"))
+                           .AddDbContextPool<ZooContextGreen>(builder => dbContextConfiguration(builder, "ZooContextGreen"))
+                           .AddDbContextPool<IZooParametersContext, ZooParametersContext>(builder => dbContextConfiguration(builder, "ZooParametersContext"))
+                           .AddScoped(GetDbContext)
                            .AddScoped<IRestrainedAnimalAdapter, RestrainedAnimalAdapter>()
                            .AddScoped<IAnimalsRegistrationAdapter, AnimalsRegistrationAdapter>()
                            .AddScoped<IVeterinaryAdapter, VeterinaryAdapter>()
@@ -55,6 +62,19 @@
                            .AddTypedClient(Refit.RestService.For<IVeterinaryClient>)
                            .Services
                            .AddWcfClient<BookServiceChannel>(bookServiceConfiguration);
+        }
+
+        private static IDbContext GetDbContext(IServiceProvider serviceProvider)
+        {
+            using var zooParameters = serviceProvider.GetRequiredService<IZooParametersContext>();
+            var configuration = zooParameters.Set<Configuration>();
+            var value = configuration.Single(c => c.Key.ToUpper() == Configuration.WritableKey).Value;
+            if (value.ToUpperInvariant() == Configuration.DbContextType.Blue.Humanize().ToUpper())
+            {
+                return serviceProvider.GetRequiredService<ZooContextBlue>();
+            }
+            
+            return serviceProvider.GetRequiredService<ZooContextGreen>();
         }
     }
 }

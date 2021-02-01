@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Zoo.Infrastructure.Entities
+namespace Zoo.Infrastructure.Entities.Zoo
 {
-    public class FoodConfiguration : IEntityTypeConfiguration<Food>
+    public class ClassificationConfiguration : IEntityTypeConfiguration<Classification>
     {
-        public void Configure(EntityTypeBuilder<Food> entity)
+        public void Configure(EntityTypeBuilder<Classification> entity)
         {
-            entity.ToTable("Food");
+            entity.ToTable("Classification");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
 
             entity.Property(e => e.Name)
                 .IsRequired()

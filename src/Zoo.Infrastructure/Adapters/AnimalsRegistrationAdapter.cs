@@ -1,5 +1,6 @@
 ﻿namespace Zoo.Infrastructure.Adapters
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Administration.AnimalsRegistrationAggregate;
@@ -7,9 +8,11 @@
 
     using AutoMapper;
 
-    using Entities;
+    using Entities.Zoo;
+    
+    using Park.BearsAggregate.Models;
 
-    using Park.Common.Models;
+    using Specification;
 
     using Store;
 
@@ -19,19 +22,23 @@
         
         private readonly IWriter writer;
 
-        public AnimalsRegistrationAdapter(IMapper mapper, IWriter writer)
+        private readonly IReader reader;
+
+        public AnimalsRegistrationAdapter(IMapper mapper, IWriter writer, IReader reader)
         {
             this.mapper = mapper;
             this.writer = writer;
+            this.reader = reader;
         }
         
         public async Task<TDetails> RegisterAsync<TCreating, TDetails>(TCreating creatingAnimal) 
             where TCreating : AnimalCreating
         {  
-            var entity = this.mapper.Map<Animal>(creatingAnimal);
-            this.writer.Create(entity);
+            var mappedAnimal = this.mapper.Map<Animal>(creatingAnimal);
+            this.writer.Create(mappedAnimal);
             await this.writer.SaveAsync();
-            return this.mapper.Map<TDetails>(entity);
+            var bearsQuery = this.reader.Get(new AnimalsSpecification<TDetails>()).Where(animal => animal == mappedAnimal);
+            return this.mapper.ProjectTo<TDetails>(bearsQuery).Single();
         }
     }
 }

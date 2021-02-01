@@ -2,10 +2,18 @@
 {
     using EndToEnd;
 
+    using Humanizer;
+
+    using Infrastructure.Entities.Parameters;
+    using Infrastructure.Entities.Zoo;
+    using Infrastructure.Store;
+
     using TechTalk.SpecFlow;
 
     internal static class ScenarioContextExtensions
     {
+        public const string CurrentContextName = "CurrentContextName";
+
         public static void AddAssertion(this ScenarioContext scenarioContext, Assertion assertion)
         {
             if (scenarioContext.TryGetValue(out Assertion currentAssertion))
@@ -28,6 +36,26 @@
             }
 
             scenarioContext.Set(configure);
+        }   
+        
+        public static void ConfigureCurrentDb(this ScenarioContext scenarioContext,  Configure<IDbContext> configure)
+        {
+            Configure<TOrigin> Convert<TOrigin>(Configure<IDbContext> additionalConfig)
+            {
+                var origin = scenarioContext.Get<Configure<TOrigin>>();
+                Configure<TOrigin> converted = o => additionalConfig((IDbContext)o);
+                converted += origin;
+                return converted;
+            }
+            
+            var contextName = scenarioContext.Get<string>(CurrentContextName);
+            if (contextName.ToUpper() == Configuration.DbContextType.Blue.Humanize().ToUpper())
+            {
+                scenarioContext.Configure(Convert<ZooContextBlue>(configure));
+                return;
+            }
+            
+            scenarioContext.Configure(Convert<ZooContextGreen>(configure));
         }
     }
 }

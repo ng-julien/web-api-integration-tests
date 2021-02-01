@@ -34,7 +34,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "zoo-director")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(AnimalDetails), 201)]
         [ProducesResponseType(500)]

@@ -4,7 +4,7 @@
 
     using AutoMapper;
 
-    using Entities;
+    using Entities.Zoo;
 
     using Park.BearsAggregate.Models;
 

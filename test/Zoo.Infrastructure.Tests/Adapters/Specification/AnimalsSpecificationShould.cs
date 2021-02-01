@@ -7,7 +7,7 @@ namespace Zoo.Infrastructure.Tests.Adapters.Specification
     using FluentAssertions;
 
     using Infrastructure.Adapters.Specification;
-    using Infrastructure.Entities;
+    using Infrastructure.Entities.Zoo;
 
     using Park.BearsAggregate.Models;
 

@@ -2,7 +2,7 @@
 {
     using AutoMapper;
 
-    using Entities;
+    using Entities.Zoo;
 
     using FizzWare.NBuilder;
 

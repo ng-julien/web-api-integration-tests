@@ -8,7 +8,7 @@
 
     using Infrastructure.BookService;
     using Infrastructure.Contracts.Veterinary.Models;
-    using Infrastructure.Entities;
+    using Infrastructure.Entities.Zoo;
 
     using Park.BearsAggregate.Models;
     using Park.Common.Models;
